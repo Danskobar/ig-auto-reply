@@ -55,8 +55,10 @@ async function handleComment(value) {
 
   // --- DM mode: if enabled for this post, EVERY comment gets the link DM'd,
   // no keyword matching, no AI, your own written text. Takes priority. ---
-  if (post.dm_enabled && post.dm_link_url && post.dm_message_text) {
-    const dmText = `${post.dm_message_text}\n${post.dm_link_url}`;
+  if (post.dm_enabled && post.dm_message_text) {
+    const dmText = post.dm_link_url
+      ? `${post.dm_message_text}\n${post.dm_link_url}`
+      : post.dm_message_text;
 
     try {
       await sendPrivateReply(account.ig_user_id, commentId, dmText, account.access_token);
